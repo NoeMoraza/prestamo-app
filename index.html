@@ -1,167 +1,347 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Préstamo</title>
-
-<link rel="manifest" href="manifest.json">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Mi Préstamo Pro</title>
+<link rel="apple-touch-icon" href="icon-180.png">
 <style>
-:root {
-    --bg: #0b0f1a;
-    --card: #121826;
-    --accent: #3b82f6;
-    --text: #ffffff;
-    --sub: #9ca3af;
+:root{
+  --bg:#050812;
+  --bg-2:#0b1223;
+  --card:#101a30;
+  --line:rgba(255,255,255,.10);
+  --text:#f8fafc;
+  --sub:#9fb0c9;
+  --accent:#3b82f6;
+  --accent-2:#60a5fa;
+  --ok:#22c55e;
 }
-
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  background:
+    radial-gradient(1000px 500px at -20% -10%, #1e3a8a 0%, transparent 60%),
+    radial-gradient(900px 500px at 120% -20%, #1d4ed8 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg), #03050b 70%);
+  color:var(--text);
+  min-height:100vh;
 }
-
-.container {
-    padding: 20px;
+.iphone-shell{max-width:430px;margin:0 auto;min-height:100vh;padding:10px 14px 28px}
+.status-bar{
+  height:28px;display:flex;align-items:center;justify-content:space-between;
+  color:#dbeafe;font-size:12px;opacity:.95;padding:2px 4px;
 }
-
-.header {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 20px;
+.status-icons{display:flex;gap:8px;align-items:center}
+.dot{width:6px;height:6px;border-radius:50%;background:#fff;opacity:.9}
+.pill{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  padding:4px 10px;border-radius:999px;font-size:12px;color:#cbd5e1;
 }
-
-.card {
-    background: var(--card);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    animation: fadeIn 0.6s ease;
+.header{display:flex;align-items:center;justify-content:space-between;margin:8px 0 16px}
+.title-wrap h1{margin:0;font-size:29px;letter-spacing:.2px}
+.title-wrap p{margin:5px 0 0;color:var(--sub);font-size:13px}
+.avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,#1e40af,#2563eb,#60a5fa);
+  display:grid;place-items:center;font-weight:800;
+  box-shadow:0 8px 22px rgba(59,130,246,.45);
 }
-
-.title {
-    color: var(--sub);
-    font-size: 14px;
+.card{
+  background:linear-gradient(165deg, rgba(20,33,58,.95), rgba(10,16,30,.96));
+  border:1px solid var(--line);
+  border-radius:22px;padding:16px;margin-bottom:12px;
+  box-shadow:0 14px 30px rgba(0,0,0,.35);
 }
-
-.amount {
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: 5px;
+.loan-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.muted{color:var(--sub);font-size:12px}
+.big{font-size:32px;font-weight:800;margin-top:6px}
+.chip{
+  padding:8px 10px;border-radius:12px;font-size:12px;
+  border:1px solid rgba(59,130,246,.35);color:#bfdbfe;background:rgba(59,130,246,.14);
 }
-
-.progress-bar {
-    height: 10px;
-    background: #1f2937;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 15px;
+.progress-wrap{margin-top:14px}
+.progress-track{
+  height:12px;border-radius:999px;background:#0a1120;border:1px solid var(--line);overflow:hidden;
 }
-
-.progress {
-    height: 100%;
-    background: linear-gradient(90deg, #3b82f6, #60a5fa);
-    width: 0%;
-    transition: width 0.6s ease;
+.progress-bar{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  transition:width .45s ease;
 }
-
-.button {
-    width: 100%;
-    padding: 15px;
-    border-radius: 15px;
-    border: none;
-    font-size: 16px;
-    font-weight: 600;
-    margin-top: 10px;
-    cursor: pointer;
-    transition: 0.2s;
+.progress-meta{margin-top:8px;display:flex;justify-content:space-between;font-size:12px;color:#cbd5e1}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:rgba(10,18,34,.76);border:1px solid var(--line);border-radius:16px;padding:12px}
+.stat .label{font-size:12px;color:var(--sub)}
+.stat .value{margin-top:6px;font-size:20px;font-weight:700}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.section-head h3{margin:0;font-size:15px}
+.badge{
+  font-size:11px;color:#86efac;background:rgba(34,197,94,.12);
+  border:1px solid rgba(34,197,94,.3);border-radius:999px;padding:4px 8px;
 }
-
-.pay {
-    background: var(--accent);
-    color: white;
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px}
+.small{font-size:12px;color:var(--sub)}
+.kpi{font-size:15px;font-weight:700}
+.list{max-height:260px;overflow:auto;border-top:1px dashed var(--line);margin-top:8px}
+.item{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  padding:10px 2px;border-bottom:1px solid rgba(255,255,255,.05);
 }
-
-.reset {
-    background: #1f2937;
-    color: var(--sub);
+.left .n{font-size:13px;font-weight:700}
+.left .d{font-size:12px;color:var(--sub);margin-top:2px}
+.right{text-align:right}
+.right .m{font-size:14px;font-weight:700}
+.right .s{font-size:11px;color:#93c5fd}
+.empty{text-align:center;color:var(--sub);font-size:13px;padding:20px 4px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+button{border:none;border-radius:14px;padding:14px 12px;font-size:15px;font-weight:700;cursor:pointer}
+.btn-pay{
+  color:white;background:linear-gradient(135deg,#2563eb,#3b82f6);
+  box-shadow:0 8px 20px rgba(59,130,246,.35);
 }
-
-.button:active {
-    transform: scale(0.97);
+.btn-reset{color:#d1d5db;background:#111827;border:1px solid var(--line)}
+.calendar-grid{display:grid;grid-template-columns:1fr;gap:8px;max-height:320px;overflow:auto}
+.month{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px;border:1px solid var(--line);border-radius:12px;background:rgba(11,18,34,.6);
 }
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(10px);}
-    to {opacity: 1; transform: translateY(0);}
-}
+.month.done{border-color:rgba(34,197,94,.4)}
+.month.current{border-color:rgba(59,130,246,.5)}
+.month .title{font-size:13px;font-weight:700;text-transform:capitalize}
+.month .date{font-size:12px;color:var(--sub);margin-top:2px}
+.month .right-side{display:flex;align-items:center;gap:8px}
+.switch{width:18px;height:18px}
+.footer-space{height:14px}
 </style>
 </head>
-
 <body>
-
-<div class="container">
-
-    <div class="header">Mi préstamo</div>
-
-    <div class="card">
-        <div class="title">Pagado</div>
-        <div class="amount" id="pagado">0 €</div>
-
-        <div class="progress-bar">
-            <div class="progress" id="barra"></div>
-        </div>
+<div class="iphone-shell">
+  <div class="status-bar">
+    <span id="clock">9:41</span>
+    <div class="status-icons">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="pill">5G • 100%</span>
     </div>
+  </div>
 
-    <div class="card">
-        <div class="title">Restante</div>
-        <div class="amount" id="restante">11000 €</div>
+  <div class="header">
+    <div class="title-wrap">
+      <h1>Mi Préstamo</h1>
+      <p>Cuota fija 230 €/mes · Inicio en octubre 2025</p>
     </div>
+    <div class="avatar">€</div>
+  </div>
 
-    <div class="card">
-        <div class="title">Cuotas pagadas</div>
-        <div class="amount" id="cuotas">0</div>
+  <div class="card">
+    <div class="loan-top">
+      <div>
+        <div class="muted">Importe total a pagar</div>
+        <div class="big">11.000 €</div>
+      </div>
+      <div class="chip" id="estadoChip">En progreso</div>
     </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-bar" id="barra"></div></div>
+      <div class="progress-meta">
+        <span id="porcentaje">0% completado</span>
+        <span id="mesesInfo">0 / 48 meses</span>
+      </div>
+    </div>
+  </div>
 
-    <button class="button pay" onclick="pagar()">He pagado este mes</button>
-    <button class="button reset" onclick="reset()">Resetear</button>
+  <div class="grid-2">
+    <div class="stat"><div class="label">Pagado</div><div class="value" id="pagado">0 €</div></div>
+    <div class="stat"><div class="label">Pendiente</div><div class="value" id="restante">11.000 €</div></div>
+    <div class="stat"><div class="label">Cuota mensual fija</div><div class="value">230 €</div></div>
+    <div class="stat"><div class="label">Meses restantes</div><div class="value" id="mesesRestantes">48</div></div>
+  </div>
 
+  <div class="card">
+    <div class="section-head"><h3>Próximo pago</h3><span class="badge" id="nextBadge">Programado</span></div>
+    <div class="row"><span class="small">Fecha (siempre día 1)</span><span class="kpi" id="proximoPago">01/10/2025</span></div>
+    <div class="row"><span class="small">Pago medio realizado</span><span class="kpi" id="pagoMedio">0 €</span></div>
+    <div class="row"><span class="small">Ritmo</span><span class="kpi" id="ritmoPago">0 meses pagados</span></div>
+  </div>
+
+  <div class="card">
+    <div class="section-head"><h3>Calendario de pagos (editable)</h3><span class="badge" id="historialCount">0 pagos</span></div>
+    <div class="calendar-grid" id="calendario"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-head"><h3>Historial de pagos</h3><span class="badge">Reciente</span></div>
+    <div class="list" id="historial"></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-pay" onclick="pagar()">He pagado este mes</button>
+    <button class="btn-reset" onclick="resetear()">Resetear</button>
+  </div>
+  <div class="footer-space"></div>
 </div>
 
 <script>
-let total = 11000;
-let cuota = 230;
+const TOTAL = 11000;
+const CUOTA_FIJA = 230;
+const TOTAL_MESES = 48;
+const START_YEAR = 2025;
+const START_MONTH_INDEX = 9; // octubre
 
-let pagos = JSON.parse(localStorage.getItem("pagos")) || 0;
+const STORAGE_KEY = "mesesPrestamo_v2";
+const OLD_KEY = "mesesPrestamo";
+const el = (id) => document.getElementById(id);
 
-function actualizar() {
-    let pagado = pagos * cuota;
-    let restante = total - pagado;
-    let progreso = (pagado / total) * 100;
+function formatEUR(n){
+  return new Intl.NumberFormat("es-ES", { style:"currency", currency:"EUR", maximumFractionDigits:0 }).format(n);
+}
+function nowClock(){
+  const d = new Date();
+  el("clock").textContent = `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+}
+function generarMesesBase(){
+  const arr = [];
+  for(let i=0;i<TOTAL_MESES;i++){
+    const d = new Date(START_YEAR, START_MONTH_INDEX + i, 1);
+    arr.push({
+      idx:i,
+      monthName:d.toLocaleDateString("es-ES", { month:"long", year:"numeric" }),
+      dateStr:d.toLocaleDateString("es-ES"),
+      paid:false
+    });
+  }
+  return arr;
+}
+function cargarMeses(){
+  const stored = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if(Array.isArray(stored) && stored.length === TOTAL_MESES){
+    return stored;
+  }
 
-    document.getElementById("pagado").innerText = pagado + " €";
-    document.getElementById("restante").innerText = restante + " €";
-    document.getElementById("cuotas").innerText = pagos;
-    document.getElementById("barra").style.width = progreso + "%";
+  const old = JSON.parse(localStorage.getItem(OLD_KEY));
+  if(Array.isArray(old) && old.length === TOTAL_MESES){
+    const migrated = generarMesesBase().map((m, i) => ({...m, paid: Boolean(old[i]?.paid)}));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+    localStorage.removeItem(OLD_KEY);
+    return migrated;
+  }
+
+  localStorage.removeItem(OLD_KEY);
+  return generarMesesBase();
 }
 
-function pagar() {
-    pagos++;
-    localStorage.setItem("pagos", pagos);
-    actualizar();
+let meses = cargarMeses();
+
+function pagosHechos(){ return meses.filter(m => m.paid).length; }
+function pagadoTotal(){ return Math.min(pagosHechos() * CUOTA_FIJA, TOTAL); }
+function restanteTotal(){ return Math.max(TOTAL - pagadoTotal(), 0); }
+function siguientePendiente(){ return meses.find(m => !m.paid) || null; }
+
+function renderCalendario(){
+  const wrap = el("calendario");
+  wrap.innerHTML = "";
+  const next = siguientePendiente();
+
+  meses.forEach((m) => {
+    const row = document.createElement("div");
+    row.className = "month" + (m.paid ? " done" : "") + (next && next.idx === m.idx ? " current" : "");
+    row.innerHTML = `
+      <div>
+        <div class="title">Mes ${m.idx + 1} · ${m.monthName}</div>
+        <div class="date">Pago programado: ${m.dateStr} (día 1)</div>
+      </div>
+      <div class="right-side">
+        <span class="small">${m.paid ? "Pagado" : "Pendiente"}</span>
+        <input class="switch" type="checkbox" ${m.paid ? "checked" : ""} data-idx="${m.idx}">
+      </div>
+    `;
+    wrap.appendChild(row);
+  });
+
+  wrap.querySelectorAll(".switch").forEach((input) => {
+    input.addEventListener("change", (e)=>{
+      const idx = Number(e.target.getAttribute("data-idx"));
+      meses[idx].paid = e.target.checked;
+      actualizar();
+    });
+  });
 }
 
-function reset() {
-    pagos = 0;
-    localStorage.setItem("pagos", pagos);
-    actualizar();
+function renderHistorial(){
+  const list = el("historial");
+  list.innerHTML = "";
+  const done = meses.filter(m => m.paid).reverse();
+
+  if(!done.length){
+    list.innerHTML = '<div class="empty">Todavía no hay pagos registrados.</div>';
+    return;
+  }
+
+  done.forEach((m, i) => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <div class="left">
+        <div class="n">Pago confirmado #${done.length - i}</div>
+        <div class="d">${m.dateStr}</div>
+      </div>
+      <div class="right">
+        <div class="m">${formatEUR(CUOTA_FIJA)}</div>
+        <div class="s">confirmado</div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
 }
 
+function actualizar(){
+  const pagos = pagosHechos();
+  const pagado = pagadoTotal();
+  const restante = restanteTotal();
+  const progreso = Math.min((pagado / TOTAL) * 100, 100);
+  const next = siguientePendiente();
+
+  el("pagado").textContent = formatEUR(pagado);
+  el("restante").textContent = formatEUR(restante);
+  el("mesesRestantes").textContent = Math.max(TOTAL_MESES - pagos, 0);
+  el("porcentaje").textContent = `${progreso.toFixed(1)}% completado`;
+  el("mesesInfo").textContent = `${pagos} / ${TOTAL_MESES} meses`;
+  el("barra").style.width = `${progreso}%`;
+  el("pagoMedio").textContent = pagos ? formatEUR(Math.round(pagado / pagos)) : formatEUR(0);
+  el("ritmoPago").textContent = `${pagos} meses pagados`;
+  el("historialCount").textContent = `${pagos} pagos`;
+  el("proximoPago").textContent = next ? next.dateStr : "Préstamo liquidado";
+
+  const done = restante <= 0 || pagos >= TOTAL_MESES;
+  el("estadoChip").textContent = done ? "Completado" : "En progreso";
+  el("estadoChip").style.color = done ? "#86efac" : "#bfdbfe";
+  el("estadoChip").style.borderColor = done ? "rgba(34,197,94,.4)" : "rgba(59,130,246,.35)";
+  el("estadoChip").style.background = done ? "rgba(34,197,94,.12)" : "rgba(59,130,246,.12)";
+  el("nextBadge").textContent = done ? "Finalizado" : "Programado";
+
+  renderCalendario();
+  renderHistorial();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(meses));
+}
+
+function pagar(){
+  const next = siguientePendiente();
+  if(!next) return;
+  next.paid = true;
+  actualizar();
+}
+
+function resetear(){
+  meses = generarMesesBase();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(meses));
+  actualizar();
+}
+
+nowClock();
+setInterval(nowClock, 30000);
 actualizar();
 </script>
-
 </body>
 </html>
